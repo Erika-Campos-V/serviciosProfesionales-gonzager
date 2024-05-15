@@ -1,0 +1,61 @@
+
+//de San Martín: está en la provincia de Buenos Aires, los honorarios recomendados son de 3500 pesos.
+//de Rosario: está en la provincia de Santa Fe, los honorarios recomendados son de 2800 pesos.
+//de Corrientes: está en la provincia de Corrientes, los honorarios recomendados son de 4200 pesos.
+//de Hurlingham: está en la provincia de Buenos Aires, los honorarios recomendados son de 8800 pesos.
+
+import universidades.*
+import profesionales.*
+import empresas.*
+
+describe "Test de Profesionales" {
+	
+	const sm = new Universidad(provincia="Buenos Aires", honorariosRecomendados=3500)
+	const ro = new Universidad(provincia="Santa Fe", honorariosRecomendados= 2800)
+	const co = new Universidad(provincia="Corrientes", honorariosRecomendados= 4200)
+	const hm = new Universidad(provincia="Buenos Aires", honorariosRecomendados= 8800)
+	
+	
+	const juana = new ProfesionalVinculado(universidad=ro)
+	const melina = new ProfesionalAsociado(universidad=co)
+	const rocio = new ProfesionalLibre(universidad=hm, honorarios=5000, provincias=#{"Santa Fe", "Cordoba", "Buenos Aires"})
+	const lucia = new ProfesionalLibre(universidad=ro, honorarios=3200, provincias=#{"Santa Fe", "Entre Rios"})
+	
+	const e1 = new Empresa(honorariosReferencia=3500)
+	
+	method initialize() {
+		e1.agregarProfesional(juana)
+		e1.agregarProfesional(melina)
+		e1.agregarProfesional(rocio)
+		e1.agregarProfesional(lucia)
+	}
+	
+	test "Cuantos Estudiaron en Rosario" {
+		assert.equals(2, e1.cuantosEstudiaronEn(ro))
+	}
+	
+	test "Cuantos Estudiaron en Hurlingham" {
+		assert.equals(1, e1.cuantosEstudiaronEn(hm))
+	}
+	
+	test "Cuantos Estudiaron en Correintes" {
+		assert.equals(1, e1.cuantosEstudiaronEn(co))
+	}
+	
+	test "Cuantos Estudiaron en San Martin" {
+		assert.equals(0, e1.cuantosEstudiaronEn(sm))
+	}
+	
+	test "Profesionales Caros" {
+		assert.equals(#{melina, rocio}, e1.caros())
+	}
+	
+	test "universiades Formadoras" {
+		assert.equals(#{ro, co, hm}, e1.formadoras())
+	}
+	
+	test "profesional mas barato" {
+		assert.equals(juana, e1.elMasBarato())
+	}
+	
+}

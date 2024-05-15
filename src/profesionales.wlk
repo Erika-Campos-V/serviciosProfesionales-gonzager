@@ -1,29 +1,30 @@
-// esta clase está completa, no necesita nada más
+import universidades.*
+
 class ProfesionalAsociado {
-	var universidad
+	const property universidad
 	
-	method universidad() { return universidad }
-	method universidad(univ) { universidad = univ }
-	
-	method provinciasDondePuedeTrabajar() { return #{"Entre Ríos", "Corrientes", "Santa Fe"} }
-	
-	method honorariosPorHora() { return 3000 }
+	method honorarios() = universidad.honorariosRecomendados()
+	method provincias() = #{universidad.provincia()}
 }
 
 
-// a esta clase le faltan métodos
 class ProfesionalVinculado {
-	var universidad
-	
-	method universidad() { return universidad }
-	method universidad(univ) { universidad = univ }
+	const property universidad
+	var property honorarios = 3000
+	method provincias() =
+		#{"Entre Rios", "Santa Fe", "Corrientes"}
 }
 
 
-// a esta clase le faltan atributos y métodos
 class ProfesionalLibre {
-	var universidad
+	const property universidad
+	const property provincias = #{}
+	var property honorarios
 	
-	method universidad() { return universidad }
-	method universidad(univ) { universidad = univ }
+	method agregarProvincia(unaProvincia) {
+		provincias.add(unaProvincia)
+	}
+	method quitarPronvincia(unaProvincia) {
+		provincias.remove(unaProvincia)
+	}
 }
