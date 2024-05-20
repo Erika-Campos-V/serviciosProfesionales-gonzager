@@ -1,4 +1,5 @@
 import profesionales.*
+import solicitantes.*
 
 class Empresa {
 	const property profesionales = []
@@ -47,5 +48,10 @@ class Empresa {
 		})	
 	}
 	
+	method puedeSatisfacerA(unSolicitante) {
+		return profesionales.any({
+			prof => unSolicitante.puedeSerAtendidoPor(prof)
+		})
+	}
 	
 }

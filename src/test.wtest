@@ -1,12 +1,8 @@
 
-//de San Martín: está en la provincia de Buenos Aires, los honorarios recomendados son de 3500 pesos.
-//de Rosario: está en la provincia de Santa Fe, los honorarios recomendados son de 2800 pesos.
-//de Corrientes: está en la provincia de Corrientes, los honorarios recomendados son de 4200 pesos.
-//de Hurlingham: está en la provincia de Buenos Aires, los honorarios recomendados son de 8800 pesos.
-
 import universidades.*
 import profesionales.*
 import empresas.*
+import solicitantes.*
 
 describe "Test de Profesionales" {
 	
@@ -22,6 +18,22 @@ describe "Test de Profesionales" {
 	const lucia = new ProfesionalLibre(universidad=ro, honorarios=3200, provincias=#{"Santa Fe", "Entre Rios"})
 	
 	const e1 = new Empresa(honorariosReferencia=3500)
+	
+	const personaNadieLoPuedeAtender = new SolicitantePersona(provinciaDondeVive="San Juan")
+	const personaQuePudesSerAtendido = new SolicitantePersona(provinciaDondeVive="Buenos Aires")
+	const institucionNadieLoPuedeAtender = new SolicitanteInstitucion(
+		universidadesQueReconoce = #{sm}
+	)
+	const institucionQuePudesSerAtendido = new SolicitanteInstitucion(
+		universidadesQueReconoce = #{sm,hm}
+	)
+	
+	const clubNadieLoPuedeAteneder = new SolicitanteClub(
+		provinciasDondeEsta = #{"San Juan", "La Rioja", "Mendoza"}
+	)
+	const clubQuePuedeSerAtendido = new SolicitanteClub(
+		provinciasDondeEsta = #{"San Juan", "Cordoba", "Mendoza"}
+	)
 	
 	method initialize() {
 		e1.agregarProfesional(juana)
@@ -58,4 +70,27 @@ describe "Test de Profesionales" {
 		assert.equals(juana, e1.elMasBarato())
 	}
 	
+	test "Empresa no puede ateneder a solicitare persona" {
+		assert.notThat(e1.puedeSatisfacerA(personaNadieLoPuedeAtender))
+	}
+	
+	test "Empresa que si puede satisfacer a persona" {
+		assert.that(e1.puedeSatisfacerA(personaQuePudesSerAtendido))
+	}
+	
+	test "Empresa no puede ateneder a solicitare Institucion" {
+		assert.notThat(e1.puedeSatisfacerA(institucionNadieLoPuedeAtender))
+	}
+	
+	test "Empresa que si puede satisfacer a Institucion" {
+		assert.that(e1.puedeSatisfacerA(institucionQuePudesSerAtendido))
+	}
+	
+	test "Empresa no puede ateneder a solicitare Club" {
+		assert.notThat(e1.puedeSatisfacerA(clubNadieLoPuedeAteneder))
+	}
+	
+	test "Empresa que si puede satisfacer a Club" {
+		assert.that(e1.puedeSatisfacerA(clubQuePuedeSerAtendido))
+	}
 }
